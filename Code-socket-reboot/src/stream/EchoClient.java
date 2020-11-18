@@ -5,7 +5,7 @@
  * Authors:
  */
 package stream;
- 
+
 import java.io.*;
 import java.net.*;
 
@@ -27,11 +27,11 @@ public class EchoClient {
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));) {
       ClientThread ct = new ClientThread(echoSocket);
       String name = "";
-      while (name.length() < 1) {
-        System.out.println("Entrez un nom d'utilisateur");
-        name = stdIn.readLine();
-      }
-      socOut.println(name);
+//      while (name.length() < 1) {
+//        System.out.println("Entrez un nom d'utilisateur");
+//        name = stdIn.readLine();
+//      }
+//      socOut.println(name);
       ct.start();
       String line;
 
