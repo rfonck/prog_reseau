@@ -49,14 +49,21 @@ public class ServeurThread
 	    		  String line = socIn.readLine();
     			  
     			  for(Socket soc : listeclient) {
-    				  System.out.println("j'écris à" + soc.toString());
-    					try {
-    						PrintWriter printWriter = new PrintWriter(soc.getOutputStream(), true);
-    						printWriter.println(line); 
-    					} catch (IOException e) {
-    						// TODO Auto-generated catch block
-    						e.printStackTrace();
-    					}
+    				  // Ici ça serait cool d'exclure le cas ou le client s'envoie un message à lui même 
+    				  if(soc.equals(clientSocket)) {
+    					  
+    				  }else {
+	        				System.out.println("j'écris à" + soc.toString());
+	      					try {
+	      						// note pour JJ ici faut modifier 
+	      						PrintWriter printWriter = new PrintWriter(soc.getOutputStream(), true);
+	      						printWriter.println(line); 
+	      					} catch (IOException e) {
+	      						// TODO Auto-generated catch block
+	      						e.printStackTrace();
+	      					} 
+    				  }
+
     			  }
 	    		  
 
