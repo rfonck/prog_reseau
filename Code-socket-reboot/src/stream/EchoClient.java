@@ -8,6 +8,7 @@ package stream;
 
 import java.io.*;
 import java.net.*;
+import java.util.Date;
 
 public class EchoClient {
 
@@ -27,19 +28,25 @@ public class EchoClient {
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));) {
       ClientThread ct = new ClientThread(echoSocket);
       String name = "";
-//      while (name.length() < 1) {
-//        System.out.println("Entrez un nom d'utilisateur");
-//        name = stdIn.readLine();
-//      }
-//      socOut.println(name);
+      
+      while (name.length() < 1) {
+        System.out.println("Entrez un nom d'utilisateur");
+        name = stdIn.readLine();
+      }
+
+
       ct.start();
       String line;
+      
 
       while (true) {
         line = stdIn.readLine();
+        
+        String message = "\n" + name + " a écrit : \n	" + line + "\nà :" + new Date().toString();  
+        
         if (line.equals("."))
           break;
-        socOut.println(line);
+        socOut.println(message);
       }
     } catch (UnknownHostException e) {
       System.err.println("Don't know about host:" + args[0]);
