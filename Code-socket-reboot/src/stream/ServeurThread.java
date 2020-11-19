@@ -23,6 +23,7 @@ public class ServeurThread
 	extends Thread {
 	private List<Socket> listeclient;
 	private Socket clientSocket;
+	private List<Message> listeMessage;
 
 	ServeurThread(Socket s) {
 		this.clientSocket = s;
@@ -37,31 +38,25 @@ public class ServeurThread
               synchronized (listeclient) {
             	  listeclient.add(clientSocket);
               }
-              
-        		
-        		
-    		  System.out.println("Révolution"); 
-    		  BufferedReader socIn = null;
-    		  socIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));    
-    		  PrintStream socOut = new PrintStream(clientSocket.getOutputStream());
+//            ObjectOutputStream oosNouveauClient = new  ObjectOutputStream(clientSocket.getOutputStream());
+//    		  for (Message mesNouveauClient: listeMessage) {
+//    			  oosNouveauClient.writeObject(mesNouveauClient);
+//    		  }
+    		  
     		  while (true) {
-
-	    		  String line = socIn.readLine();
-    			  
+    			  ObjectInputStream ois = new  ObjectInputStream(clientSocket.getInputStream()); 
+    			  Message mes = (Message) ois.readObject();
+   
     			  for(Socket soc : listeclient) {
-    				  // Ici ça serait cool d'exclure le cas ou le client s'envoie un message à lui même 
-    				  if(soc.equals(clientSocket)) {
+    				  if(soc.equals(clientSocket)) { 
     					  
     				  }else {
-	        				System.out.println("j'écris à" + soc.toString());
-	      					try {
-	      						// note pour JJ ici faut modifier 
-	      						PrintWriter printWriter = new PrintWriter(soc.getOutputStream(), true);
-	      						printWriter.println(line); 
-	      					} catch (IOException e) {
-	      						// TODO Auto-generated catch block
-	      						e.printStackTrace();
-	      					} 
+      					try {
+      						ObjectOutputStream oos = new  ObjectOutputStream(soc.getOutputStream());
+      						oos.writeObject(mes);
+      					} catch (IOException e) {
+      						e.printStackTrace();
+      					} 
     				  }
 
     			  }
@@ -83,12 +78,11 @@ public class ServeurThread
 		this.clientSocket = clientSocket;
 	}
 
-
-
-	public ServeurThread(List<Socket> listeclient, Socket clientSocket) {
+	public ServeurThread(List<Socket> listeclient, Socket clientSocket, List<Message> listeMessage) {
 		super();
 		this.listeclient = listeclient;
 		this.clientSocket = clientSocket;
+		this.listeMessage = listeMessage;
 	}
 
 

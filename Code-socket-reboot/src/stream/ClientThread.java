@@ -25,9 +25,12 @@ public class ClientThread extends Thread {
 	 **/
 	@Override
 	public void run() {
-		try (BufferedReader socIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
+		try {
 			while (!clientSocket.isClosed()) {
-				System.out.println(socIn.readLine());
+				ObjectInputStream ois = new  ObjectInputStream(clientSocket.getInputStream()); 
+  			    Message mes = (Message) ois.readObject();
+  			    System.out.println(mes.toString());
+
 			}
 		} catch (Exception e) {
 			System.err.println("Error in EchoServer:" + e);
