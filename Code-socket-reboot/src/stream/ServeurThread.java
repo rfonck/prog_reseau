@@ -23,6 +23,7 @@ public class ServeurThread
 	extends Thread {
 	private List<Socket> listeclient;
 	private Socket clientSocket;
+	private List<String> listeMessages;
 
 	ServeurThread(Socket s) {
 		this.clientSocket = s;
@@ -38,7 +39,20 @@ public class ServeurThread
             	  listeclient.add(clientSocket);
               }
               
-        		
+              synchronized(listeMessages) {
+            	  for (String message : listeMessages) {
+    					
+            		  try {
+      						// note pour JJ ici faut modifier 
+      						PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+      						printWriter.println(message); 
+      					} catch (IOException e) {
+      						// TODO Auto-generated catch block
+      						e.printStackTrace();
+      					} 
+            		  
+            	  }
+              }
         		
     		  System.out.println("Révolution"); 
     		  BufferedReader socIn = null;
@@ -48,6 +62,10 @@ public class ServeurThread
 
 	    		  String line = socIn.readLine();
     			  
+	    		  synchronized(listeMessages){
+	    			  listeMessages.add(line);	    			  
+	    		  }
+	    		  
     			  for(Socket soc : listeclient) {
     				  // Ici ça serait cool d'exclure le cas ou le client s'envoie un message à lui même 
     				  if(soc.equals(clientSocket)) {
@@ -89,6 +107,13 @@ public class ServeurThread
 		super();
 		this.listeclient = listeclient;
 		this.clientSocket = clientSocket;
+	}
+
+	public ServeurThread(List<Socket> listeclient, Socket clientSocket, List<String> listeMessages) {
+		super();
+		this.listeclient = listeclient;
+		this.clientSocket = clientSocket;
+		this.listeMessages = listeMessages;
 	}
 
 

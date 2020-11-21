@@ -42,7 +42,7 @@ public class EchoServerMultiThreaded  {
        public static void main(String args[]){ 
         ServerSocket listenSocket;
 		List<Socket> listeclient = Collections.synchronizedList(new ArrayList<Socket>());
-		List<ServeurThread> listeThread = Collections.synchronizedList(new ArrayList<ServeurThread>());
+		List<String> listeMessages = Collections.synchronizedList(new ArrayList<String>());
   	if (args.length != 1) {
           System.out.println("Usage: java EchoServer <EchoServer port>");
           System.exit(1);
@@ -54,7 +54,7 @@ public class EchoServerMultiThreaded  {
 		while (true) {
 			Socket clientSocket = listenSocket.accept();
 			System.out.println("Connexion from:" + clientSocket.getInetAddress());
-			ServeurThread ct = new ServeurThread(listeclient, clientSocket);
+			ServeurThread ct = new ServeurThread(listeclient, clientSocket, listeMessages);
 			ct.start();
 			
         }
