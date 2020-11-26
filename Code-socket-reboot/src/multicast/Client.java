@@ -23,18 +23,25 @@ public class Client {
 	    // Group IP address 
 	    InetAddress groupAddr = InetAddress.getByName(args[0]); 
 	    Integer groupPort = Integer.parseInt(args[1]); 
+	    
 	    // Create a multicast socket 
 	    MulticastSocket s = new MulticastSocket(groupPort); 
+	    
 	    // Join the group 
 	    s.joinGroup(groupAddr);
 	    
 	    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-	    
-	    ThreadClientReception ct = new ThreadClientReception(s);
+        System.out.print("Enter your name: "); 
+        String name = stdIn.readLine();
+        
+        // Creates a thread for reading messages
+	    ThreadClientReception ct = new ThreadClientReception(s, name);
 	    ct.start();
+	    
 	    String msg;
+	    
 	    while(true) {
-	    	msg = stdIn.readLine();
+	    	msg = name + " a ecrit : \n	" + stdIn.readLine() + "\na :" + new Date().toString() + "\n";
 	    	DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(), groupAddr, groupPort);
 	    	s.send(hi);
 	    }

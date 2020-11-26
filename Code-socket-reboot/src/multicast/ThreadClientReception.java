@@ -9,7 +9,14 @@ import java.net.MulticastSocket;
 public class ThreadClientReception extends Thread {
 	
 	private MulticastSocket s;
+	private String name;
 	
+	public ThreadClientReception(MulticastSocket s, String name) {
+		super();
+		this.s = s;
+		this.name = name;
+	}
+
 	public ThreadClientReception(MulticastSocket s) {
 		super();
 		this.s = s;
@@ -32,8 +39,10 @@ public class ThreadClientReception extends Thread {
 			try {
 				s.receive(recv);
 				String message = new String(recv.getData(), 0, recv.getLength());
-				System.out.println(message);
-				
+				if(!message.startsWith(this.name)) {
+					System.out.println(message);
+				}
+			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
