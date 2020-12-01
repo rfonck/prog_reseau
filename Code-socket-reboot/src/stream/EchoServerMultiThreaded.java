@@ -36,7 +36,7 @@ public class EchoServerMultiThreaded  {
 	
  	/**
   	* main method
-	* @param EchoServer port
+	* @param args contains EchoServer port
   	* 
   	**/
        public static void main(String args[]){ 

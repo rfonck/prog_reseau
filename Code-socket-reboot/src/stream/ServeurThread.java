@@ -31,7 +31,6 @@ public class ServeurThread
 
  	/**
   	* receives a request from client then sends an echo to the client
-  	* @param clientSocket the client socket
   	**/
 	public void run() {
     	  try {
@@ -43,7 +42,6 @@ public class ServeurThread
             	  for (String message : listeMessages) {
     					
             		  try {
-      						// note pour JJ ici faut modifier 
       						PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
       						printWriter.println(message); 
       					} catch (IOException e) {
@@ -67,13 +65,11 @@ public class ServeurThread
 	    		  }
 	    		  
     			  for(Socket soc : listeclient) {
-    				  // Ici ça serait cool d'exclure le cas ou le client s'envoie un message à lui même 
     				  if(soc.equals(clientSocket)) {
     					  
     				  }else {
 	        				System.out.println("j'écris à" + soc.toString());
 	      					try {
-	      						// note pour JJ ici faut modifier 
 	      						PrintWriter printWriter = new PrintWriter(soc.getOutputStream(), true);
 	      						printWriter.println(line); 
 	      					} catch (IOException e) {

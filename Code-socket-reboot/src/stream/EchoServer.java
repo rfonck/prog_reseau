@@ -35,7 +35,7 @@ public class EchoServer  {
   
  	/**
   	* main method
-	* @param EchoServer port
+	* @param args contains the EchoServer port
   	* 
   	**/
        public static void main(String args[]){ 

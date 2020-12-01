@@ -15,6 +15,7 @@ public class EchoClient {
   /**
    * main method accepts a connection, receives a message from client then sends
    * an echo to the client
+   * @param args contains EchoServer host and EchoServer port
    **/
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
